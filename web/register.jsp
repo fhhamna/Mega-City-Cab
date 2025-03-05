@@ -30,7 +30,7 @@
             <option value="admin">Admin</option>
          </select><br>
 
-         <input type="submit" method ="post" value="Register">
+         <input type="submit" value="Register">
      </form>
      
         <p>Already have an account? <a href="login.jsp">Login here</a></p>

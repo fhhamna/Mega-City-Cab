@@ -4,12 +4,13 @@ package controllers;
 import dao.UserDAO;
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet{
     
     private UserDAO userDAO;
@@ -31,10 +32,10 @@ public class LoginServlet extends HttpServlet{
             session.setAttribute("username", username);
             session.setAttribute("role", role);  // "admin" or "customer"
             
-            if ("admin".equals(role)) {
-                response.sendRedirect("admin/adminDashboard.jsp");
+            if ("Admin".equals(role)) {
+                response.sendRedirect("admin/admindashboard.jsp");
             } else {
-                response.sendRedirect("customer/customerDashboard.jsp");
+                response.sendRedirect("customer/customerdashboard.jsp");
             }
         } else {
             // Invalid login credentials

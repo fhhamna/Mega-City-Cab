@@ -15,7 +15,7 @@
         <h1>Welcome, Customer!</h1>
         <p>Username: </strong><%= session.getAttribute("username") %></p>
         
-        <h2>Admin Controls</h2>
+        <h2>Customer Controls</h2>
         <ul>
         <li><a href="viewBooking.jsp">View Bookings</a></li>
         <li><a href="bookCab.jsp">Book Cab</a></li>

@@ -2,28 +2,17 @@
 package model;
 
 public class User {
-    private int userId;
     private String username;
     private String password;
     private String role;
 
-    public User(int userId, String username, String password, String role) {
-        this.userId = userId;
+    public User(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
     public User() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getUsername() {
