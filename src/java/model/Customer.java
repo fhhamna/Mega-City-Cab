@@ -20,7 +20,7 @@ public class Customer {
         this.userID = userID;
     }
 
-    public int getRegistrationID() {
+    public int getRegistration_ID(){
         return registrationID;
     }
 
@@ -52,7 +52,7 @@ public class Customer {
         this.nic = nic;
     }
 
-    public String getPhoneNo() {
+    public String getPhone_no() {
         return phoneNo;
     }
 
@@ -60,13 +60,19 @@ public class Customer {
         this.phoneNo = phoneNo;
     }
 
-    public int getUserID() {
+     public int getUser_ID() {
         return userID;
     }
 
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    
+
+     
+
+
     
     
 }

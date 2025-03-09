@@ -17,8 +17,8 @@
         
         <h2>Admin Controls</h2>
         <ul>
-        <li><a href="manageUsers.jsp">Manage Users</a></li>
-        <li><a href="manageCars.jsp">Manage Cars</a></li>
+        <li><a href="manageCustomers.jsp">Manage Customers</a></li>
+        <li><a href="manageCabs.jsp">Manage Cabs</a></li>
         <li><a href="manageDrivers.jsp">Manage Drivers</a></li>
         <li><a href="viewBookings.jsp">View Bookings</a></li>
     </ul>
