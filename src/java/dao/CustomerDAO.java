@@ -32,14 +32,14 @@ public class CustomerDAO {
     }
     
     // Method to get the customer by registration ID
-    public Customer getCustomerByID(int registrationID) {
+    public Customer getCustomerByID(int registration_ID) {
         String sql = "SELECT * FROM customer WHERE registration_ID = ?";
         Customer customer = null;
         
         try (Connection conn = DBConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
              
-            stmt.setInt(1, registrationID);
+            stmt.setInt(1, registration_ID);
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
@@ -88,25 +88,26 @@ public class CustomerDAO {
     }
      
     // Method to update customer details
-    public void updateCustomer(Customer customer) {
-        String sql = "UPDATE customer SET name = ?, address = ?, nic = ?, phone_no = ?, user_ID = ? WHERE registration_ID = ?";
+    public boolean updateCustomer(Customer customer) {
+    String query = "UPDATE customer SET name = ?, address = ?, nic = ?, phone_no = ? WHERE registration_ID = ?";
+    try (Connection conn = DBConnector.getConnection();
+         PreparedStatement ps = conn.prepareStatement(query)) {
         
-        try (Connection conn = DBConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-             
-            stmt.setString(1, customer.getName());
-            stmt.setString(2, customer.getAddress());
-            stmt.setString(3, customer.getNic());
-            stmt.setString(4, customer.getPhone_no());
-            stmt.setInt(5, customer.getUser_ID());
-            stmt.setInt(6, customer.getRegistration_ID());
-            
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("SQL Error in updateCustomer: " + e.getMessage());
-            e.printStackTrace();
-        }
+        ps.setString(1, customer.getName());
+        ps.setString(2, customer.getAddress());
+        ps.setString(3, customer.getNic());
+        ps.setString(4, customer.getPhone_no());
+        ps.setInt(5, customer.getRegistration_ID());
+
+        int rowsUpdated = ps.executeUpdate();
+        return rowsUpdated > 0; // Returns true if update was successful
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return false;
+}
+
     
     // Method to delete customer by registration ID
     public boolean deleteCustomer(int registrationID) {

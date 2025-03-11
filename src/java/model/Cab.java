@@ -13,24 +13,32 @@ import java.math.BigDecimal;
 public class Cab {
     private int cabID;
     private String model;
-    private String numberPlateNo;
     private String status;
     private BigDecimal pricePerKm;
+    private int passengers;
+    private String transmission;  // Manual or Automatic
+    private int suitcases;
 
-    public Cab(int cabID, String model, String numberPlateNo, String status, BigDecimal pricePerKm) {
+    public Cab(int cabID, String model, String status, BigDecimal pricePerKm, int passengers, int suitcases, String transmission) {
         this.cabID = cabID;
         this.model = model;
-        this.numberPlateNo = numberPlateNo;
         this.status = status;
         this.pricePerKm = pricePerKm;
+        this.passengers = passengers;
+        this.transmission = transmission;
+        this.suitcases = suitcases;
+        
     }
     
-    public Cab(String model, String numberPlateNo, String status, BigDecimal pricePerKm) {
-        this.model = model;
-        this.numberPlateNo = numberPlateNo;
-        this.status = status;
-        this.pricePerKm = pricePerKm;
-    }
+    public Cab(String model, String status, BigDecimal pricePerKm, int passengers, int suitcases, String transmission) {
+    this.model = model;
+    this.status = status;
+    this.pricePerKm = pricePerKm;
+    this.passengers = passengers;
+    this.suitcases = suitcases;
+    this.transmission = transmission;
+}
+
 
     public int getCabID() {
         return cabID;
@@ -48,14 +56,6 @@ public class Cab {
         this.model = model;
     }
 
-    public String getNumberPlateNo() {
-        return numberPlateNo;
-    }
-
-    public void setNumberPlateNo(String numberPlateNo) {
-        this.numberPlateNo = numberPlateNo;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -71,6 +71,33 @@ public class Cab {
     public void setPricePerKm(BigDecimal pricePerKm) {
         this.pricePerKm = pricePerKm;
     }
-    
+
+    public int getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(int passengers) {
+        this.passengers = passengers;
+    }
+
+    public String getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(String transmission) {
+        this.transmission = transmission;
+    }
+
+    public int getSuitcases() {
+        return suitcases;
+    }
+
+    public void setSuitcases(int suitcases) {
+        this.suitcases = suitcases;
+    }
+
     
 }
+     
+        
+   

@@ -19,7 +19,6 @@
         <ul>
         <li><a href="manageCustomers.jsp">Manage Customers</a></li>
         <li><a href="manageCabs.jsp">Manage Cabs</a></li>
-        <li><a href="manageDrivers.jsp">Manage Drivers</a></li>
         <li><a href="viewBookings.jsp">View Bookings</a></li>
     </ul>
         

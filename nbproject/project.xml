@@ -14,9 +14,6 @@
                     <file>${file.reference.Tomcat-jBCrypt-0.4}</file>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.User-Downloads}</file>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.jbcrypt-0.4.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

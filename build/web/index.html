@@ -1,138 +1,123 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Mega City Cabs - Register</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            /* Reset default margin & padding */
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: 'Montserrat', sans-serif;
+<head>
+    <title>Mega City Cabs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Reset default margin & padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-            }
+        /* Navigation Bar - Royal Blue */
+        .navbar {
+            background-color: #4682B4;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
 
-            /* Navigation Bar - Royal Blue */
-            .navbar {
-                background-color: #4682B4; 
-                padding: 15px 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                position: fixed;
-                width: 100%;
-                top: 0;
-                left: 0;
-                z-index: 1000;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            }
+        /* Navigation links */
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
 
-            /* Moving Logo Animation */
-            .logo {
-                font-size: 24px;
-                font-weight: bold;
-                color: #ffffff; /* White text */
-                text-decoration: none;
-                position: relative;
-                animation: moveLogo 5s infinite alternate ease-in-out;
-            }
+        .nav-links li {
+            margin: 0 15px;
+        }
 
-            @keyframes moveLogo {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(20px); }
-            }
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.1s;
+        }
 
-            /* Navigation links */
-            .nav-links {
-                list-style: none;
-                display: flex;
-            }
+        .nav-links a:hover {
+            color: #efcc00 ;
+        }
+        
+        
 
-            .nav-links li {
-                margin: 0 15px;
-            }
+        /* Hero Section - Background Image */
+        .hero {
+            background: url('your-image.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
 
-            .nav-links a {
-                text-decoration: none;
-                color: #ffffff; /* White text */
-                font-size: 18px;
-                font-weight: bold;
-                transition: 0.1s;
-            }
+        /* Welcome message styling */
+        .welcome {
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: -30px;
+            margin-bottom: 12px;
+            color: #000000;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
 
-            .nav-links a:hover {
-                color: #B76E79; /* Pastel Maroon Hover */
-            }
+        /* Quote styling */
+        .quote {
+            margin-bottom: 20px; /* Add space below the quote */
+            font-size: 24px; /* Optional: Adjust font size for the quote */
+            color: #333; /* Optional: Change color for better visibility */
+        }
 
-            /* Hero Section - Background Image */
-            .hero {
-                background: url('your-image.jpg') no-repeat center center/cover;
-                height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                padding-top: 80px; /* Prevents overlap with navbar */
-            }
+        /* Register Button */
+        .register-btn {
+            display: inline-block;
+            width: 220px;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #4682B4;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
 
-            /* Welcome message styling */
-            .welcome {
-                font-size: 48px;
-                font-weight: bold;
-                margin-top: -20px;
-                margin-bottom: 12px;
-                color: #000000;
-                text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            }
+        .register-btn:hover {
+            background-color: #efcc00;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo" style="color: #efcc00 ; font-size: 24px; font-weight: bold;">Mega City Cabs</div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
 
-            /* Catchy quote */
-            .quote {
-                font-size: 18px;
-                font-style: italic;
-                margin-bottom: 30px;
-                color: #3f3f3f;
-            }
-
-            /* Register Button */
-            .register-btn {
-                display: inline-block;
-                width: 220px;
-                padding: 15px;
-                font-size: 20px;
-                font-weight: bold;
-                text-decoration: none;
-                color: white;
-                background-color: #4682B4;
-                border-radius: 10px;
-                transition: 0.3s;
-            }
-
-            .register-btn:hover {
-                background-color: #658199; /* Turns black on hover */
-                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <a href="#" class="logo">Mega City Cabs</a>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-
-        <!-- Hero Section -->
-        <div class="hero">
-            <div class="welcome">Welcome to Mega City Cabs</div>
-            <div class="quote">"Your ride, your way – fast, safe, and reliable!"</div>
-            <a href="register.jsp" class="register-btn">Register Now</a>
-        </div>
-    </body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="welcome">Mega City Cabs</div>
+        <div class="quote">"Your ride, your way – fast, safe, and reliable!"</div>
+        <a href="register.jsp" class="register-btn">Register Now</a>
+    </div>
+</body>
 </html>

@@ -18,7 +18,7 @@ public class UserDAO {
     
 
     public boolean registerUser(User user) {
-      String query = "INSERT INTO user (username, password, role) VALUES (?, ?, ?)";
+      String query = "INSERT INTO user (username, password) VALUES (?, ?)";
 
         try (Connection connection = DBConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -29,7 +29,7 @@ public class UserDAO {
          //Set parameters for the PreparedStatement
          statement.setString(1, user.getUsername());
          statement.setString(2, hashedPassword);
-         statement.setString(3, user.getRole());  // "admin" or "customer"
+         //statement.setString(3, user.getRole());  // "admin" or "customer"
         
          // ✅ Execute the query and check if the insert was successful
             int result = statement.executeUpdate();

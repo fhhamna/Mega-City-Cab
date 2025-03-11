@@ -20,6 +20,10 @@ public class Customer {
         this.userID = userID;
     }
 
+    public Customer() {
+    }
+     
+
     public int getRegistration_ID(){
         return registrationID;
     }

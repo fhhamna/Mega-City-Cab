@@ -32,14 +32,14 @@
             for (Customer customer : customers) {
         %>
         <tr>
-            <td><%= customer.getRegistrationID() %></td>
+            <td><%= customer.getRegistration_ID() %></td>
             <td><%= customer.getName() %></td>
             <td><%= customer.getAddress() %></td>
             <td><%= customer.getNic() %></td>
-            <td><%= customer.getPhoneNo() %></td>
+            <td><%= customer.getPhone_no() %></td>
             <td>
-                <a href="EditCustomer.jsp?registrationID=<%= customer.getRegistrationID() %>">Edit</a> |
-                <a href="DeleteCustomerServlet?registrationID=<%= customer.getRegistrationID() %>" onclick="return confirm('Are you sure?');">Delete</a>
+                <a href="EditCustomer.jsp?registrationID=<%= customer.getRegistration_ID() %>">Edit</a> |
+                <a href="DeleteCustomerServlet?registrationID=<%= customer.getRegistration_ID() %>" onclick="return confirm('Are you sure?');">Delete</a>
             </td>
         </tr>
         <% } %>

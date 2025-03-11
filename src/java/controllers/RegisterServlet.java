@@ -22,16 +22,16 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String role = request.getParameter("role");
+        //String role = request.getParameter("role");
 
         // ✅ Create a new User object
-        User newUser = new User(username, password, role);
+        User newUser = new User(username, password);
 
         // ✅ Pass the User object to the DAO for registration
         boolean isRegistered = userDAO.registerUser(newUser);
 
         if (isRegistered) {
-            response.sendRedirect("login.jsp?message=Registration successful! Please log in.");
+            response.sendRedirect("registerForm.jsp?message=Registration successful! Please log in.");
         } else {
             response.sendRedirect("register.jsp?error=Registration failed. Try again.");
         }
