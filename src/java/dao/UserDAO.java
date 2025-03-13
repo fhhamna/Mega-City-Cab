@@ -1,4 +1,3 @@
-
 package dao;
 
 import db.DBConnector;
@@ -8,117 +7,149 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class UserDAO {
-     private Connection connection;
-     
-     public UserDAO(){
-         Connection connection = DBConnector.getConnection();
-     }
-    
+    private Connection connection;
+
+    public UserDAO() {
+        this.connection = DBConnector.getConnection(); // ✅ Properly initialize the connection
+    }
 
     public boolean registerUser(User user) {
-      String query = "INSERT INTO user (username, password) VALUES (?, ?)";
+    String sql = "INSERT INTO user (username, password, registration_ID) VALUES (?, ?, ?)";
+    try (Connection conn = DBConnector.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, user.getUsername());
+        stmt.setString(2, user.getPassword()); // ✅ Already hashed before inserting
+        stmt.setInt(3, user.getRegistrationID());
 
-        try (Connection connection = DBConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-         // Hash the password properly before saving
-         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)); // 12 rounds of hashing
-
-         //Set parameters for the PreparedStatement
-         statement.setString(1, user.getUsername());
-         statement.setString(2, hashedPassword);
-         //statement.setString(3, user.getRole());  // "admin" or "customer"
-        
-         // ✅ Execute the query and check if the insert was successful
-            int result = statement.executeUpdate();
-            return result > 0;  // Return true if the user was successfully registered
-         }  catch (SQLException e) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        }
+        int rowsInserted = stmt.executeUpdate();
+        return rowsInserted > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
+    
+    public String getPasswordByUsername(String username) {
+    String sql = "SELECT password FROM user WHERE username = ?";
+    try (Connection conn = DBConnector.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            String password = rs.getString("password");
+            System.out.println("Fetched password for user: " + username); // Debugging
+            return password; // ✅ Return the hashed password
+        }
+    } catch (SQLException e) {
+        System.out.println("Error while fetching password for user: " + username);
+        e.printStackTrace();
+    }
+    return null; // ✅ Return null if user not found
+}
+    public int getRegistrationIDByUsername(String username) {
+    int registrationID = -1;
+    String sql = "SELECT registration_ID FROM user WHERE username = ?";
+
+    try (Connection conn = DBConnector.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            registrationID = rs.getInt("registration_ID");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return registrationID;
+}
+
+
+
+   public int getRegistrationID(String username, String password) {
+    String sql = "SELECT registration_ID FROM user WHERE username = ? AND password = ?";
+    
+    try (Connection con = DBConnector.getConnection();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+
+        stmt.setString(1, username);
+        stmt.setString(2, password);
+
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("registration_ID"); // ✅ Return registration_ID
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return -1; // ✅ Return -1 if user not found
+}
 
 
     public boolean validateUser(String username, String password) {
-        String query = "SELECT password FROM user WHERE username = ?";
+    String sql = "SELECT password FROM user WHERE username = ?";
     
-         try (Connection connection = DBConnector.getConnection();
-         PreparedStatement statement = connection.prepareStatement(query)) {
+    try (Connection con = DBConnector.getConnection();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
 
-             statement.setString(1, username);
-             ResultSet resultSet = statement.executeQuery();
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
 
-         if (resultSet.next()) {
-            String storedHashedPassword = resultSet.getString("password");
-
-            // ✅ Compare the entered password with the hashed password
-            return BCrypt.checkpw(password, storedHashedPassword);
+        if (rs.next()) {
+            String hashedPassword = rs.getString("password"); // ✅ Get hashed password from DB
+            
+            // ✅ Compare hashed password with entered password
+            if (BCrypt.checkpw(password, hashedPassword)) {
+                return true; // ✅ Password matches
+            }
         }
     } catch (SQLException e) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+        e.printStackTrace();
     }
-    return false;
+    return false; // ❌ Invalid login
 }
 
 
-    // Get the role of the user (admin/customer)
+    public boolean isValidRegistrationID(int registrationID) { // ✅ Changed parameter to int
+        String query = "SELECT COUNT(*) FROM customer WHERE registration_ID = ?";
+
+        try (Connection con = DBConnector.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, registrationID); // ✅ Now handles int correctly
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public String getUserRole(String username) {
-        String query = "SELECT role FROM user WHERE username = ?";
-        try (Connection connection = DBConnector.getConnection();
-         PreparedStatement statement = connection.prepareStatement(query)){
-            
-            statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
-            
-            if (resultSet.next()) {
-                return resultSet.getString("role");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    String query = "SELECT role FROM user WHERE username = ?";
+    try (Connection con = DBConnector.getConnection();
+         PreparedStatement stmt = con.prepareStatement(query)) {
+        stmt.setString(1, username);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            String role = rs.getString("role");
+            System.out.println("Fetched role from DB: " + role);  // Debugging log
+            return role;
         }
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
-    
-    public boolean authenticateUser(String username, String password) {
-        try {
-            // Fetch user from database by username
-            String query = "SELECT password FROM user WHERE username = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, username);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                // Retrieve stored password
-                String storedPassword = resultSet.getString("password");
-
-                // Check if the password matches the hashed password
-                if (BCrypt.checkpw(password, storedPassword)) {
-                    return true; // Login successful
-                } else {
-                    return false; // Invalid password
-                }
-            } else {
-                return false; // User not found
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+    return null;  // Role not found
 }
 
 
-  
-
-   
-
-   
-
-
-
 
     
+    
 
-
+}

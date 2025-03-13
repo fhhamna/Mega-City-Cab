@@ -122,15 +122,13 @@ public Cab getCabByID(int cab_ID) {
     String sql = "SELECT * FROM cab WHERE cab_ID = ?";
     Cab cab = null;
 
-    // Use try-with-resources to ensure resources are closed automatically
     try (Connection conn = DBConnector.getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+         
         stmt.setInt(1, cab_ID);  // Set the cab ID in the query
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
-            // Create a Cab object from the result set
             cab = new Cab(
                 rs.getInt("cab_ID"),
                 rs.getString("model"),
@@ -140,47 +138,51 @@ public Cab getCabByID(int cab_ID) {
                 rs.getInt("suitcases"),
                 rs.getString("transmission")
             );
-        } else {
-            // Optionally, log that no cab was found for the given ID
-            System.out.println("No cab found with ID: " + cab_ID);
         }
     } catch (SQLException e) {
-        // Log the exception properly (e.g., using a logging framework)
-        e.printStackTrace();  // For debugging purposes; replace with logging in production
+        System.err.println("SQL Error in getCabByID: " + e.getMessage());
+        e.printStackTrace();
     }
+
     return cab;
 }
 
 
 
-    // Method to get available cabs
-   public List<Cab> getAvailableCabs() {
+
+    public List<Cab> getAvailableCabs() {
     String sql = "SELECT * FROM cab WHERE status = 'Available'";
     List<Cab> availableCabs = new ArrayList<>();
-    
+
     try (Connection conn = DBConnector.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-         
-        ResultSet rs = stmt.executeQuery();
-        
-        while (rs.next()) {
-            Cab cab = new Cab(
-                rs.getInt("cab_ID"),
-                rs.getString("model"),
-                rs.getString("status"),
-                rs.getBigDecimal("price_per_km"),
-                rs.getInt("passengers"),
-                rs.getInt("suitcases"),
-                rs.getString("transmission")
-            );
-            availableCabs.add(cab);
+         PreparedStatement stmt = conn.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        // Check if ResultSet is empty or null
+        if (rs != null) {
+            while (rs.next()) {
+                Cab cab = new Cab(
+                    rs.getInt("cab_ID"),
+                    rs.getString("model"),
+                    rs.getString("status"),
+                    rs.getBigDecimal("price_per_km"),
+                    rs.getInt("passengers"),
+                    rs.getInt("suitcases"),
+                    rs.getString("transmission")
+                );
+                availableCabs.add(cab);
+            }
         }
+
     } catch (SQLException e) {
         System.err.println("SQL Error in getAvailableCabs: " + e.getMessage());
-        e.printStackTrace();
+        e.printStackTrace(); // Log the error
     }
+
+    // Return the list, even if it's empty
     return availableCabs;
 }
+
 
 
     

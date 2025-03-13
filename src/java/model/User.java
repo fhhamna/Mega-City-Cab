@@ -1,15 +1,14 @@
-
 package model;
 
 public class User {
     private String username;
     private String password;
-   // private String role;
+    private int registrationID; // ✅ Add registrationID field
 
-    public User(String username, String password) {
+    public User(String username, String password, int registrationID) {
         this.username = username;
         this.password = password;
-        //this.role = role;
+        this.registrationID = registrationID; // ✅ Store registrationID
     }
 
     public User() {
@@ -31,7 +30,11 @@ public class User {
         this.password = password;
     }
 
-  
+    public int getRegistrationID() {  // ✅ Getter for registrationID
+        return registrationID;
+    }
 
-    
+    public void setRegistrationID(int registrationID) { // ✅ Setter for registrationID
+        this.registrationID = registrationID;
+    }
 }

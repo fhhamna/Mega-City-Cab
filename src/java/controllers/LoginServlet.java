@@ -1,7 +1,6 @@
 package controllers;
 
 import dao.UserDAO;
-import db.DBConnector;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,13 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-
     private UserDAO userDAO;
 
     public void init() throws ServletException {
@@ -26,49 +22,52 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Check if the user is valid
-        boolean isValidUser = userDAO.validateUser(username, password);
+        // Hardcode admin credentials
+        String hardcodedAdminUsername = "admin";
+        String hardcodedAdminPassword = "admin123"; // In production, use hashed passwords, not plain text
 
-        if (isValidUser) {
-            String role = userDAO.getUserRole(username);
-            
-            // Get registrationID from the database
-            int registrationID = getRegistrationID(username);
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
 
-            // Set session attributes based on role
+        // Check if the user is admin
+        if (hardcodedAdminUsername.equals(username) && hardcodedAdminPassword.equals(password)) {
+            // Set session attributes for admin
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
-            session.setAttribute("role", role);  // "admin" or "customer"
-            session.setAttribute("registrationID", registrationID);  // Set registrationID in session
+            session.setAttribute("role", "Admin");
 
-            if ("Admin".equals(role)) {
-                response.sendRedirect("admin/admindashboard.jsp");
-            } else {
-                response.sendRedirect("customer/customerdashboard.jsp");
-            }
+            // Redirect to admin dashboard
+            response.sendRedirect("admin/admindashboard.jsp");
         } else {
-            // Invalid login credentials
-            response.sendRedirect("loginError.jsp");
-        }
-    }
+            // Get stored hashed password from the database for non-admin users
+            String storedHashedPassword = userDAO.getPasswordByUsername(username);
+            System.out.println("Stored Hashed Password: " + storedHashedPassword);
 
-    // Method to get registrationID from the database based on username
-    private int getRegistrationID(String username) {
-        int registrationID = -1;  // Default value if not found
-        String sql = "SELECT registration_ID FROM customer WHERE username = ?";
-        
-        try (Connection connection = DBConnector.getConnection()) {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+            if (storedHashedPassword != null && BCrypt.checkpw(password, storedHashedPassword)) {
+                // Get user details
+                int registrationID = userDAO.getRegistrationIDByUsername(username);
+                String role = userDAO.getUserRole(username);
+                System.out.println("User Role: " + role);
+                System.out.println("Registration ID: " + registrationID);
 
-            if (rs.next()) {
-                registrationID = rs.getInt("registration_ID");
+                if (role == null) {
+                    role = "Customer"; // Default role if not found
+                }
+
+                // Set session attributes
+                HttpSession session = request.getSession();
+                session.setAttribute("username", username);
+                session.setAttribute("registration_ID", registrationID);
+
+                // Redirect based on role
+                if ("Admin".equals(role)) {
+                    response.sendRedirect("admin/admindashboard.jsp");
+                } else {
+                    response.sendRedirect("customer/customerdashboard.jsp");
+                }
+            } else {
+                response.sendRedirect("loginError.jsp");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-
-        return registrationID;
     }
 }

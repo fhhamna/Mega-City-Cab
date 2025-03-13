@@ -16,8 +16,8 @@ public class Cab {
     private String status;
     private BigDecimal pricePerKm;
     private int passengers;
-    private String transmission;  // Manual or Automatic
     private int suitcases;
+    private String transmission;  // Manual or Automatic
 
     public Cab(int cabID, String model, String status, BigDecimal pricePerKm, int passengers, int suitcases, String transmission) {
         this.cabID = cabID;
@@ -25,20 +25,9 @@ public class Cab {
         this.status = status;
         this.pricePerKm = pricePerKm;
         this.passengers = passengers;
-        this.transmission = transmission;
         this.suitcases = suitcases;
-        
+        this.transmission = transmission;
     }
-    
-    public Cab(String model, String status, BigDecimal pricePerKm, int passengers, int suitcases, String transmission) {
-    this.model = model;
-    this.status = status;
-    this.pricePerKm = pricePerKm;
-    this.passengers = passengers;
-    this.suitcases = suitcases;
-    this.transmission = transmission;
-}
-
 
     public int getCabID() {
         return cabID;
@@ -80,14 +69,6 @@ public class Cab {
         this.passengers = passengers;
     }
 
-    public String getTransmission() {
-        return transmission;
-    }
-
-    public void setTransmission(String transmission) {
-        this.transmission = transmission;
-    }
-
     public int getSuitcases() {
         return suitcases;
     }
@@ -96,8 +77,16 @@ public class Cab {
         this.suitcases = suitcases;
     }
 
+    public String getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(String transmission) {
+        this.transmission = transmission;
+    }
     
+    
+
 }
-     
         
    

@@ -11,14 +11,13 @@ import java.sql.Timestamp;
  * @author User
  */
 public class Booking {
-    
     private int bookingID;
     private String pickupLocation;
     private String destination;
     private Timestamp bookingDate;
-    private String bookingStatus;
-    private int registrationID;
-    private int cabID;
+    private String bookingStatus; // ENUM (e.g., "Pending", "Confirmed", "Completed")
+    private int registrationID; // Foreign Key referencing Customer
+    private int cabID; // Foreign Key referencing Cab
 
     public Booking(int bookingID, String pickupLocation, String destination, Timestamp bookingDate, String bookingStatus, int registrationID, int cabID) {
         this.bookingID = bookingID;
@@ -30,6 +29,18 @@ public class Booking {
         this.cabID = cabID;
     }
 
+    
+    public Booking(String pickupLocation, String destination, Timestamp bookingDate, String bookingStatus, int bookingID, int registrationID) {
+        this.bookingID = bookingID;
+        this.pickupLocation = pickupLocation;
+        this.destination = destination;
+        this.bookingDate = bookingDate;
+        this.bookingStatus = bookingStatus;
+        this.registrationID = registrationID;
+        this.cabID = cabID;
+    }
+
+    
     public int getBookingID() {
         return bookingID;
     }
@@ -85,4 +96,7 @@ public class Booking {
     public void setCabID(int cabID) {
         this.cabID = cabID;
     }
+
+    
+
 }
