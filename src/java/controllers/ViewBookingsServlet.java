@@ -48,7 +48,7 @@ public class ViewBookingsServlet extends HttpServlet {
             // Re-fetch all bookings and forward to viewBookings.jsp
             List<Booking> bookings = bookingDAO.getAllBookings();
             request.setAttribute("bookings", bookings);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/viewBookings.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/generateBill.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

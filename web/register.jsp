@@ -130,7 +130,7 @@
                     <input type="submit" class="register-btn" value="Register">
                 </form>
 
-                <p class="login-link">Already have an account? <a href="login.jsp">Login here</a></p>
+                
             </div>
         </div>
     </body>

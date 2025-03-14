@@ -20,6 +20,8 @@ public class EditCabServlet extends HttpServlet {
         cabDAO = new CabDAO(); // Initialize the CabDAO
     }
 
+    
+    
     // Handle GET request to retrieve cab details for editing
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,7 +33,7 @@ public class EditCabServlet extends HttpServlet {
             // Check if the cab was found
             if (cab != null) {
                 request.setAttribute("cab", cab);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("EditCab.jsp");  // Corrected JSP name
+                RequestDispatcher dispatcher = request.getRequestDispatcher("admin/EditCab.jsp");  // Corrected JSP name
                 dispatcher.forward(request, response);
             } else {
                 response.sendRedirect("manageCabs.jsp?error=Cab not found.");

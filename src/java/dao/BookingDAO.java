@@ -118,7 +118,53 @@ public class BookingDAO {
             return false;  // Return false if the update failed
         }
     }
+    public Booking getBookingById(int bookingID) {
+    String sql = "SELECT * FROM booking WHERE booking_ID = ?";
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, bookingID);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Booking(
+                rs.getInt("booking_ID"),
+                rs.getString("pickup_location"),
+                rs.getString("destination"),
+                rs.getTimestamp("booking_date"),
+                rs.getString("booking_status"),
+                rs.getInt("registration_ID"),
+                rs.getInt("cab_ID")
+            );
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
 }
+
+    public List<Booking> getBookingsByCustomerId(int customerID) {
+        List<Booking> bookings = new ArrayList<>();
+        String sql = "SELECT * FROM booking WHERE registration_ID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customerID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Booking booking = new Booking(
+                    rs.getInt("booking_ID"),
+                    rs.getString("pickup_location"),
+                    rs.getString("destination"),
+                    rs.getTimestamp("booking_date"),
+                    rs.getString("booking_status"),
+                    rs.getInt("registration_ID"),
+                    rs.getInt("cab_ID")
+                );
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookings;
+    }
+}
+
 
 
 

@@ -7,11 +7,13 @@
         <title>Edit Cab</title>
     </head>
     <body>
+
     <%
         Cab cab = (Cab) request.getAttribute("cab");
         if (cab == null) {
     %>
-        <p style="color:red;">Cab not found!</p>
+        <p style="color:red;">Cab not found! Make sure you are selecting a valid cab.</p>
+        <a href="manageCabs.jsp">Go back</a>
     <%
         } else {
     %>
@@ -50,5 +52,6 @@
     <%
         } // End of else block
     %>
+
 </body>
 </html>

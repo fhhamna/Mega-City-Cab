@@ -119,13 +119,14 @@ public class CabDAO {
     }
 
 public Cab getCabByID(int cab_ID) {
+    System.out.println("Fetching cab details for cab_ID: " + cab_ID); // Debugging
     String sql = "SELECT * FROM cab WHERE cab_ID = ?";
     Cab cab = null;
 
     try (Connection conn = DBConnector.getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
          
-        stmt.setInt(1, cab_ID);  // Set the cab ID in the query
+        stmt.setInt(1, cab_ID);  
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
@@ -138,6 +139,8 @@ public Cab getCabByID(int cab_ID) {
                 rs.getInt("suitcases"),
                 rs.getString("transmission")
             );
+        } else {
+            System.out.println("Cab with ID " + cab_ID + " not found in database."); // Debugging
         }
     } catch (SQLException e) {
         System.err.println("SQL Error in getCabByID: " + e.getMessage());
